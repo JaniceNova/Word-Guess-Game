@@ -1,4 +1,4 @@
-var computerChoices = ["pixies", "faefolk", "magic"]
+var computerChoices = ["pix", "faefolk", "magic"]
 var object = {}
 
 var winsScore = 0;
@@ -13,7 +13,9 @@ $('#guessleft').append(guessScore);
 var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 console.log(computerGuess); //add the correct letter to check object for number , want to get the len, have equal, correct guess, word
 
-for (var i = 0; i < computerGuess.length; i++) {
+function newObject() {
+    object = {};
+    for (var i = 0; i < computerGuess.length; i++) {
     var currentLetter = computerGuess[i];
     if (object.hasOwnProperty(computerGuess[i])) {
         object[computerGuess[i]]++
@@ -22,17 +24,23 @@ for (var i = 0; i < computerGuess.length; i++) {
     else {
         object[computerGuess[i]] = 1
     }
-}
+    console.log(object);
+} 
+} 
+newObject()
 console.log(object);
 
-function getDash() {
+function getDash() { ////something with hidden above dashword
+
     console.log(computerGuess.length)
     var dashWord = "";
     for (var i = 0; i < computerGuess.length; i++) {
         dashWord = dashWord + "_ ";
+
     }
+    Object.keys(object)                    ///put something here
     console.log(dashWord);
-    $("#word").append(dashWord);
+    $("#word").text(dashWord);
 }
 getDash()
 
@@ -76,40 +84,30 @@ document.onkeyup = function (event) {
                 $('#loses').html(losesScore);
                 computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-                $("#lettersguessed").html("");
-            }
-            if (guessScore === 0) {
+                $("#lettersguessed").html(""); 
                 guessScore = 10;
                 correctGuess = [];
-                
-
+             
+                newObject();
+                getDash();
             }
-
-
+        
             if (correctGuess.length === (Object.keys(object).length)) {
                 winsScore++; $('#wins').html(winsScore);
                 guessScore = 10;
                 computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-                for (var i = 0; i < computerGuess.length; i++) {
-                    var currentLetter = computerGuess[i];
-                    if (object.hasOwnProperty(computerGuess[i])) {
-                        object[computerGuess[i]]++
-                
-                    }
-                    else {
-                        object[computerGuess[i]] = 1
-                    }
-                }
+                console.log(object)
                 $("#lettersguessed").html("");
                 console.log(Object.keys(object).length);
                 correctGuess = [];
+                
+                newObject();
+                getDash();
 
 
             }
-
         }
     }
-
 }
 
 
